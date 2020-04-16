@@ -41,7 +41,7 @@ DEFINE_bool(flir_camera,                false,          "Whether to use FLIR (Po
 DEFINE_int32(flir_camera_index,         -1,             "Select -1 (default) to run on all detected flir cameras at once. Otherwise, select the flir"
                                                         " camera index to run, where 0 corresponds to the detected flir camera with the lowest"
                                                         " serial number, and `n` to the `n`-th lowest serial number camera.");
-DEFINE_string(ip_camera,                "http://192.168.178.21:8081/",             "String with the IP camera URL. It supports protocols like RTSP and HTTP.");
+DEFINE_string(ip_camera,                "",             "String with the IP camera URL. It supports protocols like RTSP and HTTP.");
 DEFINE_uint64(frame_first,              0,              "Start on desired frame number. Indexes are 0-based, i.e., the first frame has index 0.");
 DEFINE_uint64(frame_step,               1,              "Step or gap between processed frames. E.g., `--frame_step 5` would read and process frames"
                                                         " 0, 5, 10, etc..");
@@ -77,7 +77,7 @@ DEFINE_int32(keypoint_scale,            0,              "Scaling of the (x,y) co
                                                         " corner of the image, and (1,1) the bottom-right one; and 4 for range [-1,1], where"
                                                         " (-1,-1) would be the top-left corner of the image, and (1,1) the bottom-right one. Non"
                                                         " related with `scale_number` and `scale_gap`.");
-DEFINE_int32(number_people_max,         -1,             "This parameter will limit the maximum number of people detected, by keeping the people with"
+DEFINE_int32(number_people_max,         1,             "This parameter will limit the maximum number of people detected, by keeping the people with"
                                                         " top scores. The score is based in person area over the image, body part score, as well as"
                                                         " joint score (between each pair of connected body parts). Useful if you know the exact"
                                                         " number of people in the scene, so it can remove false positives (if all the people have"
@@ -96,7 +96,7 @@ DEFINE_int32(body,                      1,              "Select 0 to disable bod
 DEFINE_string(model_pose,               "BODY_25",      "Model to be used. E.g., `BODY_25` (fastest for CUDA version, most accurate, and includes"
                                                         " foot keypoints), `COCO` (18 keypoints), `MPI` (15 keypoints, least accurate model but"
                                                         " fastest on CPU), `MPI_4_layers` (15 keypoints, even faster but less accurate).");
-DEFINE_string(net_resolution,           "-1x336",       "Multiples of 16. If it is increased, the accuracy potentially increases. If it is"
+DEFINE_string(net_resolution,           "-1x320",       "Multiples of 16. If it is increased, the accuracy potentially increases. If it is"
                                                         " decreased, the speed increases. For maximum speed-accuracy balance, it should keep the"
                                                         " closest aspect ratio possible to the images or videos to be processed. Using `-1` in"
                                                         " any of the dimensions, OP will choose the optimal aspect ratio depending on the user's"
@@ -177,7 +177,7 @@ DEFINE_int32(ik_threads,                0,              "Experimental, not avail
                                                         " keypoints to obtain 3-D joint angles. By default (0 threads), it is disabled. Increasing"
                                                         " the number of threads will increase the speed but also the global system latency.");
 // OpenPose Rendering
-DEFINE_int32(part_to_show,              0,              "Prediction channel to visualize: 0 (default) for all the body parts, 1 for the background"
+DEFINE_int32(part_to_show,             0,              "Prediction channel to visualize: 0 (default) for all the body parts, 1 for the background"
                                                         " heat map, 2 for the superposition of heatmaps, 3 for the superposition of PAFs,"
                                                         " 4-(4+#keypoints) for each body part heat map, the following ones for each body part pair"
                                                         " PAF.");
@@ -225,7 +225,7 @@ DEFINE_double(cli_verbose,              -1.f,           "If -1, it will be disab
                                                         " the command line every `verbose` frames. If number in the range (0,1), it will print the"
                                                         " progress every `verbose` times the total of frames.");
 // Result Saving
-DEFINE_string(write_images,             "",             "Directory to write rendered frames in `write_images_format` image format.");
+//DEFINE_string(write_images,             "",             "Directory to write rendered frames in `write_images_format` image format.");
 DEFINE_string(write_images_format,      "png",          "File extension and format for `write_images`, e.g., png, jpg or bmp. Check the OpenCV"
                                                         " function cv::imwrite for all compatible extensions.");
 DEFINE_string(write_video,              "",             "Full file path to write rendered frames in motion JPEG video format. It might fail if the"
@@ -245,8 +245,8 @@ DEFINE_bool(write_video_with_audio,     false,          "If the input is video a
                                                         " details).");
 DEFINE_string(write_video_3d,           "",             "Analogous to `--write_video`, but applied to the 3D output.");
 DEFINE_string(write_video_adam,         "",             "Experimental, not available yet. Analogous to `--write_video`, but applied to Adam model.");
-DEFINE_string(write_json,               "",             "Directory to write OpenPose output in JSON format. It includes body, hand, and face pose"
-                                                        " keypoints (2-D and 3-D), as well as pose candidates (if `--part_candidates` enabled).");
+//DEFINE_string(write_json,               "",             "Directory to write OpenPose output in JSON format. It includes body, hand, and face pose"
+ //                                                       " keypoints (2-D and 3-D), as well as pose candidates (if `--part_candidates` enabled).");
 DEFINE_string(write_coco_json,          "",             "Full file path to write people pose data with JSON COCO validation format. If foot, face,"
                                                         " hands, etc. JSON is also desired (`--write_coco_json_variants`), they are saved with"
                                                         " different file name suffix.");

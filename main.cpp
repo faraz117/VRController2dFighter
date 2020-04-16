@@ -18,6 +18,10 @@
 DEFINE_bool(no_display, false,
 	"Enable to disable the visual display.");
 
+DEFINE_string(write_json, "D:\\CUDA_bin\\2dfighter_build\\x64\\Debug\\json\\", "Directory to write OpenPose output in JSON format. It includes body, hand, and face pose"
+	" keypoints (2-D and 3-D), as well as pose candidates (if `--part_candidates` enabled).");
+DEFINE_string(write_images, "D:\\CUDA_bin\\2dfighter_build\\x64\\Debug\\img\\", "Directory to write rendered frames in `write_images_format` image format.");
+
 float keypoints_idle[75] = { 429.338,87.7121,0.924312,
 430.769,142.044,0.880676,
 385.041,143.457,0.827137,
@@ -129,6 +133,9 @@ double correlation(cv::Mat &image_1, cv::Mat &image_2) {
 
 }
 
+class WKeyboardSimulator : public op::Worker<op::Datum> {
+
+};
 
 // This worker will just read and return all the jpg files in a directory
 
@@ -282,6 +289,9 @@ void configureWrapper(op::Wrapper& opWrapper)
 		// Add custom processing
 		const auto workerOutputOnNewThread = true;
 		opWrapper.setWorker(op::WorkerType::Output, wUserOutput, workerOutputOnNewThread);
+		// Add keyboard simulator
+		auto wKeyboardSimulator = std::make_shared<WKeyboardSimulator>();
+		opWrapper.setWorker(op::WorkerType::PostProcessing, wKeyboardSimulator,workerOutputOnNewThread);
 
 		// Pose configuration (use WrapperStructPose{} for default and recommended configuration)
 		const op::WrapperStructPose wrapperStructPose{
