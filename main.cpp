@@ -133,10 +133,6 @@ double correlation(cv::Mat &image_1, cv::Mat &image_2) {
 
 }
 
-class WKeyboardSimulator : public op::Worker<op::Datum> {
-
-};
-
 // This worker will just read and return all the jpg files in a directory
 
 class WUserOutput : public op::WorkerConsumer<std::shared_ptr<std::vector<std::shared_ptr<op::Datum>>>>
@@ -214,7 +210,7 @@ public:
 				{
 					// Display rendered output image
 					const cv::Mat cvMat = OP_OP2CVCONSTMAT(datumsPtr->at(0)->cvOutputData);
-					cv::imshow(OPEN_POSE_NAME_AND_VERSION + " - Tutorial C++ API", cvMat);
+					cv::imshow(OPEN_POSE_NAME_AND_VERSION + " - 2D Fighter", cvMat);
 					// Display image and sleeps at least 1 ms (it usually sleeps ~5-10 msec to display the image)
 					const char key = (char)cv::waitKey(1);
 					if (key == 27)
@@ -289,9 +285,6 @@ void configureWrapper(op::Wrapper& opWrapper)
 		// Add custom processing
 		const auto workerOutputOnNewThread = true;
 		opWrapper.setWorker(op::WorkerType::Output, wUserOutput, workerOutputOnNewThread);
-		// Add keyboard simulator
-		auto wKeyboardSimulator = std::make_shared<WKeyboardSimulator>();
-		opWrapper.setWorker(op::WorkerType::PostProcessing, wKeyboardSimulator,workerOutputOnNewThread);
 
 		// Pose configuration (use WrapperStructPose{} for default and recommended configuration)
 		const op::WrapperStructPose wrapperStructPose{
